@@ -13,7 +13,7 @@ from pycalphad.variables import Species
 from pycalphad.io.database import FileExistsError
 from pycalphad.io.tdb import expand_keyword
 from pycalphad.io.tdb import _apply_new_symbol_names, DatabaseExportError
-from pycalphad.tests.datasets import ALCRNI_TDB, ALFE_TDB, ALNIPT_TDB, ROSE_TDB, DIFFUSION_TDB
+from pycalphad.tests.datasets import ALCRNI_TDB, ALFE_TDB, ALNIPT_TDB, ROSE_TDB, DIFFUSION_TDB, PBSN_TDB
 import nose.tools
 try:
     # Python 2
@@ -184,9 +184,11 @@ def test_to_file_raises_with_bad_if_exists_argument():
 def test_to_file_overwrites_with_if_exists_argument():
     "Database.to_file should overwrite if 'overwrite' is passed to if_exists"
     fname = 'testwritedb.tdb'
-    test_dbf = Database(ALNIPT_TDB)
+    test_dbf = Database(PBSN_TDB)
     test_dbf.to_file(fname)  # establish the initial file
     inital_modification_time = os.path.getmtime(fname)
+    import time
+    time.sleep(1)
     test_dbf.to_file(fname, if_exists='overwrite')  # test if_exists behavior
     overwrite_modification_time = os.path.getmtime(fname)
     assert overwrite_modification_time > inital_modification_time
